@@ -126,7 +126,7 @@ sudo a2enmod proxy proxy_http
 ```
 
 Créer un fichier `datalake.conf` dans `/etc/apache2/sites-available/` avec des lignes suivantes
-```
+```apache
 <VirtualHost *:80>
 ProxyPass / http://localhost:7000/
         ProxyPassReverse / http://localhost:7000/
