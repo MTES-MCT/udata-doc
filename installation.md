@@ -3,32 +3,33 @@
 ## Post installation OS 
 Paramétrage du proxy
 ```shell
-export https_proxy=http://<adresse:port>`
+export https_proxy=http://<adresse:port>
 ```
 
-Ajout de packages 
+Ajout de packages OS debian
 ```shell
-apt-get install bash-completion openssh-server sudo`
+apt-get install bash-completion openssh-server sudo
 ```
 
-Modifier le fichier `/etc/group` pour ajouter un compte en sudo ; se positionner sur la ligne sudo et indiquer les noms des utilisateurs.
+Ajout d'un compte existant dans le groupe des utilisateurs à pouvoir
+Modifier le fichier `/etc/group` : se positionner sur la ligne sudo et indiquer les noms des utilisateurs concernés.
 
 Installation du serveur relai de courriel
 
 ```shell
-sudo apt-get install  mailutils exim4`
+sudo apt-get install  mailutils exim4
 ```
 
 ## Installation des prérequis
 
-Installation de git et de curl
-`sudo apt-get install git-core curl`
-
-Installation des prérequis udata
-`sudo apt-get install build-essential pkg-config python python-dev python-pip \
+Installation de git, de curl et des prérequis udata
+```shell
+sudo apt-get install git-core curl
+sudo apt-get install build-essential pkg-config python python-dev python-pip \
     libjpeg-dev zlib1g-dev libtiff5-dev libfreetype6-dev \
     liblcms2-dev libopenjpeg-dev libwebp-dev libpng12-dev \
-    libxml2-dev  libxslt1-dev liblzma-dev libyaml-dev`
+    libxml2-dev  libxslt1-dev liblzma-dev libyaml-dev
+```
 
 Installation de docker-compose
 `curl -L "https://github.com/docker/compose/releases/download/1.11.2/docker-compose-$(uname -s)-$(uname -m)" -o /tmp/docker-compose`
