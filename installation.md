@@ -125,7 +125,7 @@ inv i18nc
 sudo a2enmod proxy proxy_http
 ```
 
-Créer un fichier `datalake.conf` dans `/etc/apache2/sites-enabled/` avec des lignes suivantes
+Créer un fichier `datalake.conf` dans `/etc/apache2/sites-available/` avec des lignes suivantes
 ```
 <VirtualHost *:80>
 ProxyPass / http://localhost:7000/
