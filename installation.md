@@ -55,28 +55,35 @@ sudo vi /etc/systemd/system/docker.service.d/http-proxy.conf
 ```
 
 Ajouter les lignes suivantes :
-`
+```python
 [Service]
 Environment="HTTP_PROXY=http://<adresse:port>"
 Environment="HTTPS_PROXY=http://<adresse:port>"
-`
+```
+
 Relance du service
-`sudo systemctl restart docker.service`
+```shell
+sudo systemctl restart docker.service
+```
 
 ## Installation de udata
+```shell
+pip install udata
+pip install udata-piwik udata-gouvfr udata-youckan uwsgi gevent raven
+```
 
-`pip install udata`
-`pip install udata-piwik udata-gouvfr udata-youckan uwsgi gevent raven`
+## Post installation de udata
 
-
-## A mettre en forme...
-
+```shell
 (en root) pip install virtualenv
 virtualenv --python=python2.7 venv
 source venv/bin/activate
-
 pip install -r udata/requirements/develop.pip
 pip install -e udata/
+```
+
+## A mettre en forme...
+
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
 export NVM_DIR="/home/adminstr/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
