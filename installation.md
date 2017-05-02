@@ -32,22 +32,28 @@ sudo apt-get install build-essential pkg-config python python-dev python-pip \
 ```
 
 Installation de docker-compose
-`curl -L "https://github.com/docker/compose/releases/download/1.11.2/docker-compose-$(uname -s)-$(uname -m)" -o /tmp/docker-compose`
-`sudo cp /tmp/docker-compose /usr/local/bin/docker-compose`
-`sudo chmod +x /usr/local/bin/docker-compose`
+```shell
+curl -L "https://github.com/docker/compose/releases/download/1.11.2/docker-compose-$(uname -s)-$(uname -m)" -o /tmp/docker-compose
+sudo cp /tmp/docker-compose /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+```
 
 Installation de docker engine
-`sudo apt-get install apt-transport-https  ca-certificates software-properties-common`
-`curl -fsSL https://yum.dockerproject.org/gpg | sudo apt-key add -`
-`sudo add-apt-repository        "deb https://apt.dockerproject.org/repo/ \
+```shell
+sudo apt-get install apt-transport-https  ca-certificates software-properties-common
+curl -fsSL https://yum.dockerproject.org/gpg | sudo apt-key add -
+sudo add-apt-repository        "deb https://apt.dockerproject.org/repo/ \
 	debian-$(lsb_release -cs) \
-	main"`
-`sudo apt-get update`
-`sudo apt-get -y install docker-engine`
+	main"
+sudo apt-get update
+sudo apt-get -y install docker-engine
+```
 
 Paramétrage de docker dans le cas d'un proxy
+```shell
+sudo vi /etc/systemd/system/docker.service.d/http-proxy.conf
+```
 
-`sudo vi /etc/systemd/system/docker.service.d/http-proxy.conf`
 Ajouter les lignes suivantes :
 `
 [Service]
