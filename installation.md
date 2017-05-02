@@ -2,15 +2,22 @@
 
 ## Post installation OS 
 Paramétrage du proxy
-`export https_proxy=http://<adresse:port>`
+```shell
+export https_proxy=http://<adresse:port>`
+```
 
-`apt-get install bash-completion openssh-server sudo`
+Ajout de packages 
+```shell
+apt-get install bash-completion openssh-server sudo`
+```
 
 Modifier le fichier `/etc/group` pour ajouter un compte en sudo ; se positionner sur la ligne sudo et indiquer les noms des utilisateurs.
 
 Installation du serveur relai de courriel
-`sudo apt-get install  mailutils exim4`
 
+```shell
+sudo apt-get install  mailutils exim4`
+```
 
 ## Installation des prérequis
 
@@ -92,4 +99,6 @@ inv i18nc
 sudo a2enmod proxy proxy_http
 sudo service apache2 restart
 sudo a2ensite datalake
+
+[uData]: https://github.com/opendatateam/udata
 
