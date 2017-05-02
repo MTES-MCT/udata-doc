@@ -133,9 +133,6 @@ sudo a2ensite datalake
 Lancmeent des services
 docker-compose up -d
 
-sudo a2enmod proxy proxy_http
-sudo service apache2 restart
-sudo a2ensite datalake
 
 [uData]: https://github.com/opendatateam/udata
 
