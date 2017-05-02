@@ -123,14 +123,25 @@ inv i18nc
 ## Installation d'un reverse proxy en frontal de udata
 ```shell
 sudo a2enmod proxy proxy_http
+
+Créer un fichier `datalake.conf` dans `/etc/apache2/sites-enabled/` avec des lignes suivantes
+```
+<VirtualHost *:80>
+ProxyPass / http://localhost:7000/
+        ProxyPassReverse / http://localhost:7000/
+        ProxyPreserveHost Off
+</VirtualHost>
+```
+
+Relancer le service apache et activer le paramétrage
+```shell
 sudo service apache2 restart
 sudo a2ensite datalake
 ```
 
-
 ## A mettre en forme...
 
-Lancmeent des services
+Lancement des services
 docker-compose up -d
 
 
