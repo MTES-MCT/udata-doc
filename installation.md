@@ -123,6 +123,7 @@ inv i18nc
 ## Installation d'un reverse proxy en frontal de udata
 ```shell
 sudo a2enmod proxy proxy_http
+```
 
 Créer un fichier `datalake.conf` dans `/etc/apache2/sites-enabled/` avec des lignes suivantes
 ```
