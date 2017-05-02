@@ -82,33 +82,56 @@ pip install -r udata/requirements/develop.pip
 pip install -e udata/
 ```
 
-## A mettre en forme...
-
+Installer nvm (et l'activer sans se déconnecter)
+```shell
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
 export NVM_DIR="/home/adminstr/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 nvm install v6.9.4
-
 cd udata
 nvm install
 nvm use
+```
+
+Installer npm
+```shell
 npm config set http-proxy http://<adresse:port>
 npm config set https-proxy http://<adresse:port>
 npm config set registry http://registry.npmjs.org/
 npm set strict-ssl false
 git config --global url.https://github.com/.insteadOf git://github.com/
 npm install
+```
 
+Installer les assets de udata
+```shell
 inv assets_build
-
 udata init
 udata licenses https://www.data.gouv.fr/api/1/datasets/licenses
+```
 
-docker-compose up -d
+Paramétrer tx
+(à complèter)
 
+
+Finir l'installation de udata
+```shell
 tx pull 
 inv i18nc
+```
 
+## Installation d'un reverse proxy en frontal de udata
+```shell
+sudo a2enmod proxy proxy_http
+sudo service apache2 restart
+sudo a2ensite datalake
+```
+
+
+## A mettre en forme...
+
+Lancmeent des services
+docker-compose up -d
 
 sudo a2enmod proxy proxy_http
 sudo service apache2 restart
