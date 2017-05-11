@@ -15,7 +15,7 @@ $ echo "https_proxy=http://<adresse_proxy:port_proxy>; export https_proxy" >> /e
 $ echo "no_proxy="localhost,127.0.0.1,.mondomaine"; export no_proxy" >> /etc/bash.bashrc
 ```
 
-### 1.2 __Install some packages__
+### 1.2 __Install some essential packages__
 ```shell
 $ apt-get install bash-completion openssh-server sudo
 ```
@@ -128,11 +128,11 @@ $ sudo nano /etc/systemd/system/docker.service.d/http-proxy.conf
 Environment="HTTP_PROXY=http://<adresse_proxy:port_proxy>/" "HTTPS_PROXY=http://<adresse_proxy:port_proxy>/" "NO_PROXY=localhost,127.0.0.1,.mondomaine"
 ```
 Flush changes
-````shell
+```shell
 $ sudo systemctl daemon-reload
 ```
 Restart Docker
-````shell
+```shell
 $ sudo systemctl restart docker
 ```
 
@@ -152,6 +152,8 @@ Test the installation
 docker-compose --version
 ```
 
+---
+
 ## 3. Local dependencies
 
 > **Execute these commands as** ```udata``` **user**
@@ -169,18 +171,34 @@ Now we can clone the udata repository
 ```shell
 git clone https://github.com/opendatateam/udata.git
 ```
+
 ### 3.2 __Python and virtualenv__
+Install virtualenv
 ```shell
 pip install --user virtualenv
-/home/udata/.local/bin/virtualenv --python=python2.7 venv
+```
+Set virtualenv in the path
+```shell
+echo 'export PATH=$HOME/.local/bin:$PATH' >> /home/udata/.bashrc
+```
+Create a python 2.7 virtualenv for the project
+```shell
+virtualenv --python=python2.7 venv
+```
+Activate the virtualenv and install the requirements
+```shell
 source venv/bin/activate
 pip install Cython
 pip install -r requirements/develop.pip
+```
+Install the project in editable mode
+```shell
 pip install -e .
 ```
+
 ### 3.3 __NodeJS__
+Install NodeJs
 ```shell
-cd udata
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
@@ -192,7 +210,7 @@ We are behind a proxy, so:
 npm config set proxy "http://<adresse_proxy:port_proxy>" -g
 npm config set https-proxy "http://<adresse_proxy:port_proxy>" -g
 ```
-Now we can use npm
+Now we can use npm to install packages
 ```shell
 npm install
 ```
