@@ -1,7 +1,7 @@
-# Documentation du projet datalake.écologie du SOeS (service statistique ministériel du MEEM/MLHD)
+# Documentation du projet datalake.Ã©cologie du SOeS (service statistique ministÃ©riel du MEEM/MLHD)
 
-## Principes généraux
-Le projet datalake.écologie vise à mettre en place un outil intelligent de stockage, de gestion et de diffusion de la donnée, qui soit interopérable, pour simplifier et organiser une mise à disposition cohérente des données publiques locales, produites par l’appareil statistique des ministères de l’écologie et du logement.
+## Principes gÃ©nÃ©raux
+Le projet datalake.Ã©cologie vise Ã  mettre en place un outil intelligent de stockage, de gestion et de diffusion de la donnÃ©e, qui soit interopÃ©rable, pour simplifier et organiser une mise Ã  disposition cohÃ©rente des donnÃ©es publiques locales, produites par lâ€™appareil statistique des ministÃ¨res de lâ€™Ã©cologie et du logement.
 
 ## Architecture
 Deux composants sont le squelette de l'outil :
@@ -10,7 +10,7 @@ Deux composants sont le squelette de l'outil :
 
 ## Documentation
 
-Plusieurs documents ont été rédigés pour décrire les travaux de mise en place du datalake.
+Plusieurs documents ont Ã©tÃ© rÃ©digÃ©s pour dÃ©crire les travaux de mise en place du datalake.
 
-* Une documentation d'installation et de paramétrage (en)
+* Une [documentation](./installation.md) d'installation et de paramÃ©trage (en)
 * Des exemples de scripts pour alimenter ou consulter le datalake
