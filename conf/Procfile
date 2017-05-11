@@ -1,0 +1,10 @@
+
+## Launch loacl web server (listen only on localhost and on port 7000)
+web: inv serve
+
+## Launch Celery workers (required)
+worker: inv work
+beat: inv beat
+
+## Launch dependencies via docker-compose (mongoDb, Redis, elasticSearch)
+db: docker-compose up
