@@ -4,7 +4,7 @@
 Le projet datalake.écologie vise à mettre en place un outil intelligent de stockage, de gestion et de diffusion de la donnée, qui soit interopérable, pour simplifier et organiser une mise à disposition cohérente des données publiques locales, produites par l’appareil statistique des ministères de l’écologie et du logement.
 
 ## Architecture
-Deux composants sont le squelette de l'outil :
+Deux composants définissent le squelette de l'outil :
 - uData
 - MongoDB
 
