@@ -6,5 +6,5 @@ web: inv serve
 worker: inv work
 beat: inv beat
 
-## Launch dependencies via docker-compose (mongoDb, redis, elasticsearch)
+## Launch dependencies via docker-compose (mongoDb, Redis, elasticSearch)
 db: docker-compose up
