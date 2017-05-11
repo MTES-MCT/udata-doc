@@ -11,8 +11,8 @@
 ### 1.1 __Set the proxy environment variables persistently for all users__
 ```shell
 $ echo 'http_proxy=http://<adresse_proxy:port_proxy>; export http_proxy' >> /etc/bash.bashrc
-$ echo "https_proxy=http://<adresse_proxy:port_proxy>; export https_proxy" >> /etc/bash.bashrc
-$ echo "no_proxy="localhost,127.0.0.1,.mondomaine"; export no_proxy" >> /etc/bash.bashrc
+$ echo 'https_proxy=http://<adresse_proxy:port_proxy>; export https_proxy' >> /etc/bash.bashrc
+$ echo 'no_proxy="localhost,127.0.0.1,.mondomaine"; export no_proxy' >> /etc/bash.bashrc
 ```
 
 ### 1.2 __Install some essential packages__
@@ -163,54 +163,209 @@ docker-compose --version
 ### 3.1 __Retrieving udata sources__
 Be careful because we are behind a proxy and with git
 ```shell
-git config --global http.proxy http://<adresse_proxy:port_proxy>
-git config --global https.proxy http://<adresse_proxy:port_proxy>
-git config --global url."https://github.com/".insteadOf git://github.com/
+$ git config --global http.proxy http://<adresse_proxy:port_proxy>
+$ git config --global https.proxy http://<adresse_proxy:port_proxy>
+$ git config --global url."https://github.com/".insteadOf git://github.com/
 ```
 Now we can clone the udata repository
 ```shell
-git clone https://github.com/opendatateam/udata.git
+$ git clone https://github.com/opendatateam/udata.git
+```
+And go to the udata directory
+```shell
+$ cd udata
 ```
 
 ### 3.2 __Python and virtualenv__
 Install virtualenv
 ```shell
-pip install --user virtualenv
+$ pip install --user virtualenv
 ```
 Set virtualenv in the path
 ```shell
-echo 'export PATH=$HOME/.local/bin:$PATH' >> /home/udata/.bashrc
+$ echo 'export PATH=$HOME/.local/bin:$PATH' >> /home/udata/.bashrc
 ```
 Create a python 2.7 virtualenv for the project
 ```shell
-virtualenv --python=python2.7 venv
+$ virtualenv --python=python2.7 venv
 ```
 Activate the virtualenv and install the requirements
 ```shell
-source venv/bin/activate
-pip install Cython
-pip install -r requirements/develop.pip
+$ source venv/bin/activate
+$ pip install Cython
+$ pip install -r requirements/develop.pip
 ```
 Install the project in editable mode
 ```shell
-pip install -e .
+$ pip install -e .
 ```
 
 ### 3.3 __NodeJS__
 Install NodeJs
 ```shell
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-nvm install
-nvm use
+$ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
+$ export NVM_DIR="$HOME/.nvm"
+$ [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+$ nvm install
+$ nvm use
 ```
 We are behind a proxy, so:
 ```shell
-npm config set proxy "http://<adresse_proxy:port_proxy>" -g
-npm config set https-proxy "http://<adresse_proxy:port_proxy>" -g
+$ npm config set proxy "http://<adresse_proxy:port_proxy>" -g
+$ npm config set https-proxy "http://<adresse_proxy:port_proxy>" -g
 ```
 Now we can use npm to install packages
 ```shell
-npm install
+$ npm install
+```
+
+---
+
+## 4. More settings for the project
+
+> **Execute these commands as** ```udata``` **user**
+
+> **Execute these commands in udata directory** (```/var/myudata/udata```) and with venv (```source venv/bin/activate```)
+
+
+### 4.1 Build JS and CSS for udata
+```shell
+$ inv assets_build
+```
+
+### 4.2 Install the gouvfr theme
+clone the repository
+```shell
+$ git clone https://github.com/etalab/udata-gouvfr.git
+```
+Install project in editable mode
+```shell
+$ pip install -e udata-gouvfr
+```
+Build JS and CSS for gouvfr theme
+```shell
+$ cd udata-gouvfr
+$ inv assets
+$ cd ..
+```
+
+### 4.3 Translations
+First [create a transifex account](https://www.transifex.com/signup/ "Create transifex account").
+Set informations of transifex account in ```/home/udata/.transifexrc```
+```shell
+$ nano /home/udata/.transifexrc
+
+    [https://www.transifex.com]
+    hostname = https://www.transifex.com
+    password = <transifex-password>
+    token =
+    username = <transifex-username>
+```
+Fetch last translations and compile translation for udata
+```shell
+$ tx pull
+$ inv i18nc
+```
+Fetch last translations and compile translation for theme gouvfr
+```shell
+$ cd udata-gouvfr
+$ tx pull
+$ inv i18nc
+$ cd ..
+```
+
+### 4.4 Modify udata settings
+Create ```udata.cfg``` (example [here](./conf/udata.cfg))
+```shell
+nano udata.cfg
+```
+Export the UDATA_SETTINGS environment variable each time venv is activate
+```shell
+$ echo "export UDATA_SETTINGS=/var/myudata/udata/udata.cfg" >> venv/bin/activate
+$ deactivate
+$ source venv/bin/activate
+```
+
+### 4.5 Running the project
+Create ```Procfile``` (example (example [here](./conf/Procfile))
+In our example we will launc web server, celery workers and the tree dependencies via docker-compose up (MongoDb, Redis and ElasticSearch)
+```shell
+$ nano Procfile
+```
+Run all dependencies
+```shell
+$ honcho start
+```
+
+### 4.6 Reverse proxy Apache in front of udata
+Install apache
+```shell
+$ sudo apt-get install apache2
+```
+Install proxy and proxy_http modules for apache
+```shell
+$ sudo a2enmod proxy proxy_http
+```
+Create virtualhost for myudata: edit ```myudata.conf```
+```shell
+$ nano /etc/apache2/sites-available/myudata.conf
+
+    <virtualhost *:80>
+        ServerName myhostname.icanresolve.viadns
+
+        ProxyPass / http://localhost:7000/
+        ProxyPassReverse / http://localhost:7000/
+        ProxyRequests Off
+        ProxyPreserveHost Off
+    </virtualhost>
+```
+Enable the site and restart apache
+```shell
+$ sudo a2ensite myudata
+$ sudo service apache2 restart
+```
+With this configuration all requests like http://myhostname.icanresolve.viadns/&ast; will be redirected to http://localhost:7000/&ast;
+We must change some lines in udata.cfg
+```shell
+$ nano udata.cfg
+
+    SERVER_NAME = 'myhostname.icanresolve.viadns'
+    SITE_URL = 'myhostname.icanresolve.viadns'
+```
+
+---
+
+## 5. Initialize the project
+
+> **Execute these commands as** ```udata``` **user**
+
+> **Execute these commands in udata directory** (```/var/myudata/udata```), with venv (```source venv/bin/activate```) an with project running (```honcho start```)
+
+### 5.1 Initialize the db
+```shell
+$ udata init
+```
+### 5.2 Load the geozones
+```shell
+$ udata spatial load https://www.data.gouv.fr/fr/datasets/r/48aed8bc-679b-41a2-80ec-4611d61ca6b9
+```
+### 5.3 Load the licenses
+```shell
+$ udata licenses https://www.data.gouv.fr/api/1/datasets/licenses
+```
+### 5.4 Create first user
+```shell
+udata user create
+```
+### 5.5 Set user as admin
+```shell
+udata user set_admin <mail-first-user>
+```
+### 5.6 Update metrics
+```shell
+udata metrics update
+```
+### 5.7 Reindex models
+```shell
+udata search reindex
 ```
