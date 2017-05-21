@@ -242,6 +242,10 @@ Install project in editable mode
 ```shell
 $ pip install -e udata-gouvfr
 ```
+install packages via npm
+```shell
+$ npm install
+```
 Build JS and CSS for gouvfr theme
 ```shell
 $ cd udata-gouvfr
